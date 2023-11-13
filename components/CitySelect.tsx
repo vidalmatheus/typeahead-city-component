@@ -34,10 +34,8 @@ const getMostRecentLocations = async () => {
   ]
 }
 
-const getCities = (name: string) => {  
-  console.log(process.env)
-  
-  return fetch(`http://localhost:8000/city?name=${name}`)
+const getCities = (name: string) => {    
+  return fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/city?name=${name}`)
 }
 
 const optionsLabel = (city: City): string => {
