@@ -52,22 +52,25 @@ export default function CitySelect() {
     setOptions(recentLocations)
   }
 
-  const debouncedHandleInputChange = debounce(async (event, inputName: string, reason: string) => {
-    if (reason !== "input" || !inputName) {
-      return
-    }
-    setLoading(true)
-    setOptions([])
-    try {
-      const resp = await getCities(inputName)
-      const cityOptions = await resp.json()
-      setOptions(cityOptions)
-    } catch (err) {
-      console.log(`Error fetching data: ${err}`)
-    } finally {
-      setLoading(false)
-    }
-  }, 500)
+  const debouncedHandleInputChange = debounce(
+    async (event, inputName: string, reason: string) => {
+      if (reason !== "input" || !inputName) {
+        return
+      }
+      setLoading(true)
+      setOptions([])
+      try {
+        const resp = await getCities(inputName)
+        const cityOptions = await resp.json()
+        setOptions(cityOptions)
+      } catch (err) {
+        console.log(`Error fetching data: ${err}`)
+      } finally {
+        setLoading(false)
+      }
+    },
+    500
+  )
 
   return (
     <Autocomplete
