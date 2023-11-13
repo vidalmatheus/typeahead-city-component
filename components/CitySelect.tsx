@@ -34,7 +34,7 @@ const getMostRecentLocations = async () => {
   ]
 }
 
-const getCities = (name: string) => {
+const getCities = (name: string) => {  
   console.log(process.env)
   
   return fetch(`http://localhost:8000/city?name=${name}`)
