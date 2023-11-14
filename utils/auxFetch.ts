@@ -1,46 +1,49 @@
 import { useSnackbar } from "notistack"
 
-// const { enqueueSnackbar } = useSnackbar()
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-
-const baseFetch = async <T>(
-  endpoint: string,
-  opt?: RequestInit
-): Promise<T> => {
-  const resp = await fetch(`${baseUrl}/${endpoint}`, opt)
-  if (!resp.ok) {
-    // enqueueSnackbar(`Request failed with status: ${resp.status}`)
+export default function () {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+  const { enqueueSnackbar } = useSnackbar()
+  const baseFetch = async <T>(
+    endpoint: string,
+    opt?: RequestInit
+  ): Promise<T> => {
+    try {
+      const resp = await fetch(`${baseUrl}/${endpoint}`, opt)
+      return await resp.json()
+    } catch (err) {
+      const msg = `Request failed: ${err}}`
+      enqueueSnackbar(msg, { variant: "error" })
+      throw new Error(msg)
+    }
   }
-  return await resp.json()
-}
 
-export const get = <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
-  return baseFetch<T>(endpoint, {
-    method: "get",
-    ...opt,
-  })
-}
+  return {
+    get: <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
+      return baseFetch<T>(endpoint, {
+        method: "get",
+        ...opt,
+      })
+    },
 
-export const post = <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
-  return baseFetch<T>(endpoint, {
-    method: "post",
-    ...opt,
-  })
-}
+    post: <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
+      return baseFetch<T>(endpoint, {
+        method: "post",
+        ...opt,
+      })
+    },
 
-export const put = <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
-  return baseFetch<T>(endpoint, {
-    method: "put",
-    ...opt,
-  })
-}
+    put: <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
+      return baseFetch<T>(endpoint, {
+        method: "put",
+        ...opt,
+      })
+    },
 
-export const deleteHttp = <T>(
-  endpoint: string,
-  opt?: RequestInit
-): Promise<T> => {
-  return baseFetch<T>(endpoint, {
-    method: "delete",
-    ...opt,
-  })
+    deleteHttp: <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
+      return baseFetch<T>(endpoint, {
+        method: "delete",
+        ...opt,
+      })
+    },
+  }
 }

@@ -11,7 +11,8 @@ import {
 import React from "react"
 import CheckIcon from "@mui/icons-material/check"
 import { City } from "@/types/cityTypes"
-import { getMostRecentLocations, getCities } from "@/api/city"
+import ApiCity from "@/api/city"
+import { useSnackbar, OptionsObject } from "notistack"
 
 type CitySelectProps = {
   onCityChange: React.Dispatch<City | null>
@@ -21,6 +22,8 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
   const [options, setOptions] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<City | null>(null)
+  const { getCities, getMostRecentLocations } = ApiCity()
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleOpen = async () => {
     if (!!value) {
@@ -44,6 +47,9 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       try {
         const cityOptions = await getCities(inputName)
         setOptions(cityOptions)
+        enqueueSnackbar(`Search for "${inputName}" was done`, {
+          variant: "success",
+        })
       } finally {
         setLoading(false)
       }
