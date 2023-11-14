@@ -12,7 +12,7 @@ import React from "react"
 import CheckIcon from "@mui/icons-material/check"
 import { City } from "@/types/cityTypes"
 import ApiCity from "@/api/city"
-import { useSnackbar, OptionsObject } from "notistack"
+import { useSnackbar } from "notistack"
 
 type CitySelectProps = {
   onCityChange: React.Dispatch<City | null>
