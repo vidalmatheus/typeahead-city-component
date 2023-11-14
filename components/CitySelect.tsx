@@ -21,7 +21,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
   const [options, setOptions] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<City | null>(null)
-  
+
   const handleOpen = async () => {
     if (!!value) {
       return
@@ -66,6 +66,11 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
     </Box>
   )
 
+  const handleIsOptionEqualToValue = (option: City, value: City) => {
+    if (!value) return false
+    return option.id === value.id
+  }
+
   const handleRenderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
       {...params}
@@ -91,7 +96,8 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       options={options}
       getOptionLabel={getOptionsLabel}
       renderOption={handleRenderOption}
-      sx={{ maxWidth: 400 }}
+      isOptionEqualToValue={handleIsOptionEqualToValue}
+      sx={{ maxWidth: 600 }}
       renderInput={handleRenderInput}
     />
   )
