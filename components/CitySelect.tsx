@@ -36,8 +36,9 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
   const handleChange = (event: any, value: City | null) => {
     setValue(value)
     onCityChange(value)
+    if (!value) return
     enqueueSnackbar(
-      `${value?.name} - ${value?.state_abbreviation} was selected`,
+      `${value.name} - ${value.state_abbreviation} was selected`,
       {
         variant: "success",
       }
