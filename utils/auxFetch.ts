@@ -9,11 +9,15 @@ export default function () {
   ): Promise<T> => {
     try {
       const resp = await fetch(`${baseUrl}/${endpoint}`, opt)
-      return await resp.json()
+      if (!resp.ok) {
+        const msg = `Request failed with status ${resp.status}`
+        throw new Error(msg)
+      }
+      const respJson = await resp.json()
+      return respJson
     } catch (err) {
-      const msg = `Request failed: ${err}}`
-      enqueueSnackbar(msg, { variant: "error" })
-      throw new Error(msg)
+      enqueueSnackbar(`${err}`, { variant: "error" })
+      throw new Error
     }
   }
 
