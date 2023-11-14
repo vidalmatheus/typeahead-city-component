@@ -13,11 +13,15 @@ import CheckIcon from "@mui/icons-material/check"
 import { City } from "@/types/cityTypes"
 import { getMostRecentLocations, getCities } from "@/api/city"
 
-export default function CitySelect() {
+type CitySelectProps = {
+  onCityChange: React.Dispatch<City | null>
+}
+
+export default function CitySelect({ onCityChange }: CitySelectProps) {
   const [options, setOptions] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<City | null>(null)
-
+  
   const handleOpen = async () => {
     if (!!value) {
       return
@@ -28,6 +32,7 @@ export default function CitySelect() {
 
   const handleChange = (event: any, value: City | null) => {
     setValue(value)
+    onCityChange(value)
   }
 
   const debouncedHandleInputChange = debounce(
@@ -36,7 +41,6 @@ export default function CitySelect() {
         return
       }
       setLoading(true)
-      setOptions([])
       try {
         const cityOptions = await getCities(inputName)
         setOptions(cityOptions)
@@ -65,7 +69,6 @@ export default function CitySelect() {
   const handleRenderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
       {...params}
-      label='Locations'
       InputProps={{
         ...params.InputProps,
         endAdornment: (
