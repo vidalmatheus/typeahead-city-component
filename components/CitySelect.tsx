@@ -40,9 +40,10 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
 
   const debouncedHandleInputChange = debounce(
     async (event: any, inputName: string, reason: string) => {
-      if (reason !== "input" || !inputName) {
-        return
-      }
+      const isInput = reason === "input"
+      const hasInputName = !!inputName
+      if (!isInput) return
+      if (!hasInputName) return
       setLoading(true)
       try {
         const cityOptions = await getCities(inputName)
