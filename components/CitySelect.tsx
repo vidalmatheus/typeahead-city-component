@@ -44,6 +44,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       const hasInputName = !!inputName
       if (!isInput) return
       if (!hasInputName) return
+      inputName = inputName.trim()
       setLoading(true)
       try {
         const cityOptions = await getCities(inputName)
