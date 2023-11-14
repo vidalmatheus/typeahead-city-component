@@ -7,15 +7,11 @@ export const getMostRecentLocations = async () => {
       id: 4207,
       name: "Rio de Janeiro",
       state_abbreviation: "RJ",
-      created: "2023-11-10T00:18:06.894961",
-      updated: "2023-11-11T06:21:18.395691",
     },
     {
       id: 4853,
       name: "São Paulo",
       state_abbreviation: "SP",
-      created: "2023-11-10T00:18:06.895410",
-      updated: "2023-11-11T06:21:18.395691",
     },
   ]
 }
