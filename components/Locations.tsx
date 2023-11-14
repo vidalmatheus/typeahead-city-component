@@ -2,7 +2,6 @@
 import React from "react"
 import CitySelect from "@/components/CitySelect"
 import { City } from "@/types/cityTypes"
-import { Box } from "@mui/material"
 
 export default function Locations() {
   const [selectedCity, setSelectedCity] = React.useState<City | null>(null)
@@ -14,15 +13,19 @@ export default function Locations() {
   return (
     <>
       <header>
-        <h1 className='text-2xl'>Select Locations</h1>
-        <h2 className='pt-8 pb-2'>Add Locations</h2>
+        <h1 className='text-2xl font-semibold'>Select Locations</h1>
       </header>
+      <div className="pt-8 pb-2 sm:inline-flex">
+        <h2 className="sm:mr-10 font-medium">Add Locations</h2>
+        <div className="italic inline-flex">
+          <div className="mr-2">Value:</div>
+          <div>
+            {selectedCity &&
+              `${selectedCity.name} - ${selectedCity.state_abbreviation}`}
+          </div>
+        </div>
+      </div>
       <CitySelect onCityChange={handleCityChange} />
-      <Box sx={{ gap: 2, paddingTop: 10 }}>
-	  	Selected City:{" "}
-        {selectedCity &&
-          `${selectedCity.name} - ${selectedCity.state_abbreviation}`}
-      </Box>
     </>
   )
 }
