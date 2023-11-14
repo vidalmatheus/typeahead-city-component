@@ -36,6 +36,12 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
   const handleChange = (event: any, value: City | null) => {
     setValue(value)
     onCityChange(value)
+    enqueueSnackbar(
+      `${value?.name} - ${value?.state_abbreviation} was selected`,
+      {
+        variant: "success",
+      }
+    )
   }
 
   const debouncedHandleInputChange = debounce(
@@ -49,9 +55,6 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       try {
         const cityOptions = await getCities(inputName)
         setOptions(cityOptions)
-        enqueueSnackbar(`Search for "${inputName}" was done`, {
-          variant: "success",
-        })
       } finally {
         setLoading(false)
       }
@@ -103,6 +106,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       onInputChange={debouncedHandleInputChange}
       options={options}
       getOptionLabel={getOptionsLabel}
+      filterOptions={(x) => x}
       renderOption={handleRenderOption}
       isOptionEqualToValue={handleIsOptionEqualToValue}
       sx={{ maxWidth: 600 }}

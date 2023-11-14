@@ -17,7 +17,7 @@ export default function () {
       return respJson
     } catch (err) {
       enqueueSnackbar(`${err}`, { variant: "error" })
-      throw new Error
+      throw new Error()
     }
   }
 
