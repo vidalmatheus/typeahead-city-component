@@ -4,4 +4,5 @@ export type City = {
   state_abbreviation: string
   created?: string
   updated?: string
+  recent_used: boolean
 }

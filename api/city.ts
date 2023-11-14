@@ -11,11 +11,13 @@ export default function () {
           id: 4207,
           name: "Rio de Janeiro",
           state_abbreviation: "RJ",
+          recent_used: true
         },
         {
           id: 4853,
           name: "São Paulo",
           state_abbreviation: "SP",
+          recent_used: true
         },
       ]
     },

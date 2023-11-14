@@ -85,6 +85,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
 
   const handleRenderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
+      label="Locations"
       {...params}
       InputProps={{
         ...params.InputProps,
@@ -110,6 +111,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       filterOptions={(x) => x}
       renderOption={handleRenderOption}
       isOptionEqualToValue={handleIsOptionEqualToValue}
+      groupBy={(option) => option.recent_used ? "Most recent used" : ""}
       sx={{ maxWidth: 600 }}
       renderInput={handleRenderInput}
     />
