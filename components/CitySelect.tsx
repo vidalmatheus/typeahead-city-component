@@ -6,6 +6,7 @@ import {
   CircularProgress,
   Box,
   AutocompleteRenderOptionState,
+  AutocompleteRenderInputParams,
 } from "@mui/material"
 import React from "react"
 import CheckIcon from "@mui/icons-material/check"
@@ -50,14 +51,32 @@ export default function CitySelect() {
     return `${option.name} - ${option.state_abbreviation}`
   }
 
-  const handleRenderOption = (props: any, option: City, state: AutocompleteRenderOptionState) => {
-    return (
-      <Box {...props} sx={{gap: 2}}>
-        {state.selected && <CheckIcon />}
-        {option.name} - {option.state_abbreviation}
-      </Box>
-    )
-  }
+  const handleRenderOption = (
+    props: any,
+    option: City,
+    state: AutocompleteRenderOptionState
+  ) => (
+    <Box {...props} sx={{ gap: 2 }}>
+      {state.selected && <CheckIcon />}
+      {option.name} - {option.state_abbreviation}
+    </Box>
+  )
+
+  const handleRenderInput = (params: AutocompleteRenderInputParams) => (
+    <TextField
+      {...params}
+      label='Locations'
+      InputProps={{
+        ...params.InputProps,
+        endAdornment: (
+          <React.Fragment>
+            {loading ? <CircularProgress color='inherit' size={20} /> : null}
+            {params.InputProps.endAdornment}
+          </React.Fragment>
+        ),
+      }}
+    />
+  )
 
   return (
     <Autocomplete
@@ -70,23 +89,7 @@ export default function CitySelect() {
       getOptionLabel={getOptionsLabel}
       renderOption={handleRenderOption}
       sx={{ maxWidth: 400 }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label='Locations'
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? (
-                  <CircularProgress color='inherit' size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
-      )}
+      renderInput={handleRenderInput}
     />
   )
 }
