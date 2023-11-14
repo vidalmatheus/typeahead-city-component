@@ -21,7 +21,7 @@ export default function Locations() {
           <div className='mr-2'>Value:</div>
           <div>
             {selectedCity &&
-              `${selectedCity.name} - ${selectedCity.state_abbreviation}`}
+              `${selectedCity.name} - ${selectedCity.state_abbreviation} (${selectedCity.id})`}
           </div>
         </div>
       </div>
