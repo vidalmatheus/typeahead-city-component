@@ -40,12 +40,19 @@ export default function CitySelect({
     const hasNewSelectedCity = localRecentSelectedCities.some(
       (city) => city.id === value.id
     )
-    if (hasNewSelectedCity) return
-    const taggedNewSelectedCity = { ...value, recent_used: true }
-    setLocalRecentSelectedCities([
-      { ...taggedNewSelectedCity },
+    if (hasNewSelectedCity) {
+      const updatedLocalRecentSelectedCities = [
+        { ...value, recent_used: true },
+        ...localRecentSelectedCities.filter((city) => city.id !== value.id),
+      ]
+      setLocalRecentSelectedCities(updatedLocalRecentSelectedCities)
+      return
+    }
+    const updatedLocalRecentSelectedCities = [
+      { ...value, recent_used: true },
       ...localRecentSelectedCities,
-    ])
+    ]
+    setLocalRecentSelectedCities(updatedLocalRecentSelectedCities)
   }
 
   const handleChange = async (event: any, value: City | null) => {
