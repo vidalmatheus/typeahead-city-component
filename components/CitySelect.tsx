@@ -22,21 +22,29 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
   const [options, setOptions] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<City | null>(null)
-  const { getCities, getMostRecentLocations } = ApiCity()
+  const { getCities, getMostRecentSelectedCities, postCreateCityLog } = ApiCity()
   const { enqueueSnackbar } = useSnackbar()
 
   const handleOpen = async () => {
     if (!!value) {
       return
     }
-    const recentLocations = await getMostRecentLocations()
-    setOptions(recentLocations)
+    setLoading(true)
+    setOptions([])
+    try {
+      let recentSelectedCities = await getMostRecentSelectedCities()
+      recentSelectedCities = recentSelectedCities.map((city) => ({...city, recent_used: true}))
+      setOptions(recentSelectedCities)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleChange = (event: any, value: City | null) => {
+  const handleChange = async (event: any, value: City | null) => {
     setValue(value)
     onCityChange(value)
     if (!value) return
+    await postCreateCityLog(value.id, "selected")
     enqueueSnackbar(
       `${value.name} - ${value.state_abbreviation} was selected`,
       {
@@ -85,7 +93,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
 
   const handleRenderInput = (params: AutocompleteRenderInputParams) => (
     <TextField
-      label="Locations"
+      label='Locations'
       {...params}
       InputProps={{
         ...params.InputProps,
@@ -111,7 +119,7 @@ export default function CitySelect({ onCityChange }: CitySelectProps) {
       filterOptions={(x) => x}
       renderOption={handleRenderOption}
       isOptionEqualToValue={handleIsOptionEqualToValue}
-      groupBy={(option) => option.recent_used ? "Most recent used" : ""}
+      groupBy={(option) => (option.recent_used ? "Most recent used" : "")}
       sx={{ maxWidth: 600 }}
       renderInput={handleRenderInput}
     />

@@ -1,29 +1,20 @@
-import { City } from "@/types/cityTypes"
+import { City, CityLog } from "@/types/cityTypes"
 import auxFetch from "@/utils/auxFetch"
 
 export default function () {
-  const { get } = auxFetch()
+  const { get, post } = auxFetch()
 
   return {
-    getMostRecentLocations: async () => {
-      return [
-        {
-          id: 4207,
-          name: "Rio de Janeiro",
-          state_abbreviation: "RJ",
-          recent_used: true
-        },
-        {
-          id: 4853,
-          name: "São Paulo",
-          state_abbreviation: "SP",
-          recent_used: true
-        },
-      ]
+    getMostRecentSelectedCities: () => {
+      return get<City[]>("city/most-recent-selected-cities")
     },
-
     getCities: (name: string) => {
       return get<City[]>(`city?name=${name}`)
     },
+    postCreateCityLog: (cityId: number, status: string) => {
+      return post<CityLog>("city/log", {
+        body: JSON.stringify({ cityId, status }),
+      })
+    }
   }
 }

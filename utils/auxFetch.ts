@@ -32,6 +32,9 @@ export default function () {
     post: <T>(endpoint: string, opt?: RequestInit): Promise<T> => {
       return baseFetch<T>(endpoint, {
         method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
         ...opt,
       })
     },
