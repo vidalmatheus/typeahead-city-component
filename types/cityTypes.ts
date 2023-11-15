@@ -10,3 +10,5 @@ export type CityLog = {
   city: City
   status: string
 }
+
+export type CityLogStatus = "selected" | "created" | "updated" | "deleted"

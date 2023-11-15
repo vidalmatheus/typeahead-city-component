@@ -1,8 +1,5 @@
-import { useSnackbar } from "notistack"
-
 export default function () {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
-  const { enqueueSnackbar } = useSnackbar()
   const baseFetch = async <T>(
     endpoint: string,
     opt?: RequestInit
@@ -16,8 +13,7 @@ export default function () {
       const respJson = await resp.json()
       return respJson
     } catch (err) {
-      enqueueSnackbar(`${err}`, { variant: "error" })
-      throw new Error()
+      throw new Error(`${err}`)
     }
   }
 
@@ -33,7 +29,7 @@ export default function () {
       return baseFetch<T>(endpoint, {
         method: "post",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         ...opt,
       })

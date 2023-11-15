@@ -15,36 +15,48 @@ import ApiCity from "@/api/city"
 import { useSnackbar } from "notistack"
 
 type CitySelectProps = {
-  onCityChange: React.Dispatch<City | null>
+  onCityChange?: React.Dispatch<City | null>
+  recentSelectedCities?: City[]
 }
 
-export default function CitySelect({ onCityChange }: CitySelectProps) {
+export default function CitySelect({
+  onCityChange,
+  recentSelectedCities,
+}: CitySelectProps) {
+  const [localRecentSelectedCities, setLocalRecentSelectedCities] =
+    React.useState<City[]>(recentSelectedCities ?? [])
   const [options, setOptions] = React.useState<City[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [value, setValue] = React.useState<City | null>(null)
-  const { getCities, getMostRecentSelectedCities, postCreateCityLog } = ApiCity()
+  const { getCities, postCreateCityLog } = ApiCity()
   const { enqueueSnackbar } = useSnackbar()
 
   const handleOpen = async () => {
-    if (!!value) {
-      return
-    }
-    setLoading(true)
-    setOptions([])
-    try {
-      let recentSelectedCities = await getMostRecentSelectedCities()
-      recentSelectedCities = recentSelectedCities.map((city) => ({...city, recent_used: true}))
-      setOptions(recentSelectedCities)
-    } finally {
-      setLoading(false)
-    }
+    if (!!value) return
+    setOptions(localRecentSelectedCities)
+  }
+
+  const addNewSelectedCity = (value: City) => {
+    const hasNewSelectedCity = localRecentSelectedCities.some(
+      (city) => city.id === value.id
+    )
+    if (hasNewSelectedCity) return
+    const taggedNewSelectedCity = { ...value, recent_used: true }
+    setLocalRecentSelectedCities([
+      { ...taggedNewSelectedCity },
+      ...localRecentSelectedCities,
+    ])
   }
 
   const handleChange = async (event: any, value: City | null) => {
     setValue(value)
-    onCityChange(value)
-    if (!value) return
+    if (onCityChange) onCityChange(value)
+    if (!value) {
+      setOptions(localRecentSelectedCities)
+      return
+    }
     await postCreateCityLog(value.id, "selected")
+    addNewSelectedCity(value)
     enqueueSnackbar(
       `${value.name} - ${value.state_abbreviation} was selected`,
       {
