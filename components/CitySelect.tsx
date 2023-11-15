@@ -31,7 +31,7 @@ export default function CitySelect({
   const { getCities, postCreateCityLog } = ApiCity()
   const { enqueueSnackbar } = useSnackbar()
 
-  const handleOpen = async () => {
+  const handleOpenOrAbort = async () => {
     if (!!value) return
     setOptions(localRecentSelectedCities)
   }
@@ -130,7 +130,8 @@ export default function CitySelect({
     <Autocomplete
       loading={loading}
       value={value}
-      onOpen={handleOpen}
+      onOpen={handleOpenOrAbort}
+      onAbort={handleOpenOrAbort}
       onChange={handleChange}
       onInputChange={debouncedHandleInputChange}
       options={options}
