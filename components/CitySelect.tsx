@@ -106,7 +106,7 @@ export default function CitySelect({
     const parts = parse(option.name, matches)
     const { key, ...restProps } = props
     return (
-      <Box key={key} {...restProps} sx={{ gap: 2 }}>
+      <Box key={key} {...restProps} sx={{ gap: 1 }}>
         {state.selected && <CheckIcon />}
         <div key={key}>
           {parts.map((part: any, index: any) => (
@@ -118,7 +118,7 @@ export default function CitySelect({
             >
               {part.text}
             </span>
-          ))}
+          ))} {`- ${option.state_abbreviation}`}
         </div>
       </Box>
     )
