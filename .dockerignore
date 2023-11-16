@@ -1,0 +1,11 @@
+# Ignore node_modules, as it will be installed in the Docker image
+node_modules
+
+# Ignore build artifacts and temporary files
+.next
+.env
+
+# Ignore any local development files or directories
+# Adjust these based on your specific project structure
+.vscode
+ 

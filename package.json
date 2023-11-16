@@ -9,13 +9,15 @@
     "lint": "eslint . --ignore-path .eslintignore",
     "lint:fix": "eslint . --ignore-path .eslintignore --fix",
     "format:check": "prettier --write \"**/*.{js,ts,tsx}\" --check",
-    "format": "prettier --write \"**/*.{js,ts,tsx}\""
+    "format": "prettier --write \"**/*.{js,ts,tsx}\"",
+    "dkbuild": "docker build -t typeahead-city --build-arg NEXT_PUBLIC_API_BASE_URL=http://city-service:8000 .",
+    "dkrun": "docker network create mynet 2>/dev/null || true; docker rm -f typeahead-city 2>/dev/null || true; docker run -p 3000:3000 --network mynet --name typeahead-city typeahead-city"
   },
   "dependencies": {
+    "@mui/icons-material": "^5.14.18",
+    "@mui/material": "^5.14.17",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.16",
-    "@mui/material": "^5.14.17",
     "next": "14.0.2",
     "notistack": "^3.0.1",
     "react": "^18",
