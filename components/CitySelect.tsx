@@ -9,7 +9,7 @@ import {
   AutocompleteRenderInputParams,
 } from "@mui/material"
 import React from "react"
-import CheckIcon from "@mui/icons-material/check"
+import CheckIcon from "@mui/icons-material/Check"
 import { City } from "@/types/cityTypes"
 import ApiCity from "@/api/city"
 import { useSnackbar } from "notistack"
