@@ -16,15 +16,15 @@ import { useSnackbar } from "notistack"
 import parse from "autosuggest-highlight/parse"
 import match from "autosuggest-highlight/match"
 
-type CitySelectProps = {
+type CityAutocompleteProps = {
   onCityChange?: React.Dispatch<City | null>
   recentSelectedCities?: City[]
 }
 
-export default function CitySelect({
+export default function CityAutocomplete({
   onCityChange,
   recentSelectedCities,
-}: CitySelectProps) {
+}: CityAutocompleteProps) {
   const [localRecentSelectedCities, setLocalRecentSelectedCities] =
     React.useState<City[]>(recentSelectedCities ?? [])
   const [options, setOptions] = React.useState<City[]>([])
@@ -82,19 +82,17 @@ export default function CitySelect({
       if (!hasInputName) return
       inputName = inputName.trim()
       setLoading(true)
-      try {
-        const cityOptions = await getCities(inputName)
-        if (value) {
-          const isValueInsideOptions = cityOptions.some(
-            (city) => city.id === value.id
-          )
-          if (!isValueInsideOptions) setOptions([value, ...cityOptions])
-        } else {
-          setOptions(cityOptions)
-        }
-      } finally {
-        setLoading(false)
+      const cityOptions = await getCities(inputName)
+      setLoading(false)
+      if (!value) {
+        setOptions(cityOptions)
+        return
       }
+      const selectedCityAtFirstCityOptions = [
+        value,
+        ...cityOptions.filter((city) => city.id !== value.id),
+      ]
+      setOptions(selectedCityAtFirstCityOptions)
     },
     500
   )

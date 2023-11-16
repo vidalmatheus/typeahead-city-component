@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import CitySelect from "@/components/CitySelect"
+import CityAutocomplete from "@/components/CityAutocomplete"
 import { City } from "@/types/cityTypes"
 import { SnackbarProvider } from "notistack"
 
@@ -36,7 +36,7 @@ export default function Locations({ recentSelectedCities }: LocationsProps) {
             </div>
           </div>
         </div>
-        <CitySelect
+        <CityAutocomplete
           onCityChange={handleCityChange}
           recentSelectedCities={recentSelectedCities}
         />
