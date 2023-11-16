@@ -98,12 +98,13 @@ export default function CitySelect({
     props: any,
     option: City,
     state: AutocompleteRenderOptionState
-  ) => (
-    <Box {...props} sx={{ gap: 2 }}>
+  ) => {
+    const { key, ...restProps } = props
+    return <Box key={key} {...restProps} sx={{ gap: 2 }}>
       {state.selected && <CheckIcon />}
       {option.name} - {option.state_abbreviation}
     </Box>
-  )
+  }
 
   const handleIsOptionEqualToValue = (option: City, value: City) => {
     if (!value) return false
