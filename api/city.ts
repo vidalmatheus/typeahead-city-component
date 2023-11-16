@@ -6,7 +6,7 @@ export default function () {
 
   return {
     getMostRecentSelectedCities: (opt?: RequestInit) => {
-      return get<City[]>("city/most-recent-selected-cities", opt)
+      return get<City[]>("city/log/most-recent-selected-cities", opt)
     },
     getCities: (name: string, opt?: RequestInit) => {
       return get<City[]>(`city?name=${name}`)
