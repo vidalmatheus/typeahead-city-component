@@ -13,6 +13,8 @@ import CheckIcon from "@mui/icons-material/Check"
 import { City } from "@/types/cityTypes"
 import ApiCity from "@/api/city"
 import { useSnackbar } from "notistack"
+import parse from "autosuggest-highlight/parse"
+import match from "autosuggest-highlight/match"
 
 type CitySelectProps = {
   onCityChange?: React.Dispatch<City | null>
@@ -99,11 +101,27 @@ export default function CitySelect({
     option: City,
     state: AutocompleteRenderOptionState
   ) => {
+    const inputValue = state.inputValue
+    const matches = match(option.name, inputValue, { insideWords: true })
+    const parts = parse(option.name, matches)
     const { key, ...restProps } = props
-    return <Box key={key} {...restProps} sx={{ gap: 2 }}>
-      {state.selected && <CheckIcon />}
-      {option.name} - {option.state_abbreviation}
-    </Box>
+    return (
+      <Box key={key} {...restProps} sx={{ gap: 2 }}>
+        {state.selected && <CheckIcon />}
+        <div key={key}>
+          {parts.map((part: any, index: any) => (
+            <span
+              key={index}
+              style={{
+                fontWeight: part.highlight ? 700 : 400,
+              }}
+            >
+              {part.text}
+            </span>
+          ))}
+        </div>
+      </Box>
+    )
   }
 
   const handleIsOptionEqualToValue = (option: City, value: City) => {
