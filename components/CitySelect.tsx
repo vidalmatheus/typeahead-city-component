@@ -118,7 +118,8 @@ export default function CitySelect({
             >
               {part.text}
             </span>
-          ))} {`- ${option.state_abbreviation}`}
+          ))}{" "}
+          {`- ${option.state_abbreviation}`}
         </div>
       </Box>
     )
