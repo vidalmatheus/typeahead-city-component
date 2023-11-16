@@ -84,7 +84,14 @@ export default function CitySelect({
       setLoading(true)
       try {
         const cityOptions = await getCities(inputName)
-        setOptions(cityOptions)
+        if (value) {
+          const isValueInsideOptions = cityOptions.some(
+            (city) => city.id === value.id
+          )
+          if (!isValueInsideOptions) setOptions([value, ...cityOptions])
+        } else {
+          setOptions(cityOptions)
+        }
       } finally {
         setLoading(false)
       }
