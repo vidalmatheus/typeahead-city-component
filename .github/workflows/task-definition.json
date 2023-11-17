@@ -2,7 +2,7 @@
     "containerDefinitions": [
         {
             "name": "typeahead-city",
-            "image": "513552811558.dkr.ecr.us-east-2.amazonaws.com/typeahead-city",
+            "image": "513552811558.dkr.ecr.us-east-2.amazonaws.com/typeahead-city-repo",
             "cpu": 0,
             "portMappings": [
                 {
