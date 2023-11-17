@@ -1,0 +1,50 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "typeahead-city",
+            "image": "513552811558.dkr.ecr.us-east-2.amazonaws.com/typeahead-city",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "typeahead-city-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/typeahead-city-task",
+                    "awslogs-region": "us-east-2",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            }
+        }
+    ],
+    "family": "typeahead-city-task",
+    "taskRoleArn": "arn:aws:iam::513552811558:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::513552811558:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "placementConstraints": [],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "tags": []
+}
