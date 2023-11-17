@@ -15,10 +15,8 @@
             ],
             "essential": true,
             "environment": [],
-            "environmentFiles": [],
             "mountPoints": [],
             "volumesFrom": [],
-            "ulimits": [],
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
@@ -28,6 +26,15 @@
                     "awslogs-stream-prefix": "ecs"
                 },
                 "secretOptions": []
+            },
+            "healthCheck": {
+                "command": [
+                    "CMD-SHELL",
+                    "curl -f http://localhost:3000/api/status || exit 1"
+                ],
+                "interval": 30,
+                "timeout": 5,
+                "retries": 3
             }
         }
     ],
